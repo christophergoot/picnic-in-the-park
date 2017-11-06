@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<title>Picnic in the Park</title>
+	<link rel="icon" type="image/png" href="favicon.png" />
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="picnic.js"></script>
@@ -11,17 +12,25 @@
 		<h1>Picnic in the Park</h1>
 		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
 	</header>
-	<main role="main">
+	<main role="main" class="container">
 		<section role="region" class="start-section">
-			<h2>Select your Location</h2>
+			<div class="section-heading">
+				<h2>Select your Location</h2>
+			</div>
 			<form class="js-location-form">
 				<input type="text" class="js-starting-location" placeholder="enter location">
 			</form>
 		</section>
 		<section role="region" class="js-pick-park-section hidden">
-			<h2>Pick a Park</h2>
-			<p>Load a map based on location<p>
-			<p>list some results</p>
+			<div class="section-heading">
+				<h2>Pick a Park</h2>
+			</div>
+			<div class="park map">
+				<p>Load a map based on location</p>
+			</div>
+			<div class="park results">
+				<p>list some results</p>
+			</div>
 		</section>
 		<section role="region" class="js-confirm-park-section hidden">
 			<h2>Confirm Park</h2>

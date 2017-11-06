@@ -404,37 +404,40 @@ function showSection (section) {
 	$(section).removeClass('hidden');
 }
 
-function renderYelpResults
+function loadMap(lat, long) {
+	// load a yelp map centered on given location
+	// eventually
 
 
 
-function makeYelpCall(settings, functionOnSuccess) {
-	$.getJSON(settings, functionOnSuccess);
-	// $.ajax(settings).done(functionOnSuccess);
+	$('.park.map').html(`this is a map for <strong>Lat ${lat} & Long ${long}</strong>`)
 }
 
-// $.ajax(settings).done(function (response) {
-//   console.log(response);
-// });
 
-
-
-function testApiCall () {
-	var settings = {
-	  "async": true,
-	  "crossDomain": true,
-	  "url": "https://api.yelp.com/v3/businesses/search?location=97206&categories=parks&radius=16000&sort_by=distance&limit=10",
-	  "method": "GET",
-	  "headers": {
-	    "authorization": "Bearer yzvfmEeIjLbTGkUD0BH96kqjoY53lS-oXCvBC_kc1lO9d1g6jSYuV3tjQXwJmbjK88sCr_VP6irssyn6LqGWqEz6lHjig6ba1NdThIjxssBoT2H5-8EmIRNB6-j8WXYx",
-	    // "cache-control": "no-cache",
-	    // "postman-token": "d8431675-1487-2c2f-1721-de0ac438fbd2"
-	  }
-	};
-	$.ajax(settings).done(function (response) {
-	  console.log(response);
-	});
+function renderResult(park) {
+	return (`
+		<div class="park-result">
+			<img src="${park.image_url}" alt="Image of ${park.name}" title="Image of ${park.name}">
+			<span class="title">${park.name}</span>
+			<span class="address">${park.location.display_address[0]}, ${park.location.display_address[1]}</span>
+		</div>
+		`)
 }
+
+function loadResults(data) {
+	let results = data.businesses.map((data) => renderResult(data));
+	// let results = `this here there. <br> results <br> results`;
+	$('.park.results').html(results);
+}
+
+function pickAPark(data) {
+	console.log(data);
+	let lat = data.region.center.latitude;
+	let long = data.region.center.longitude;
+	loadMap(lat, long);
+	loadResults(data);
+}
+
 
 function watchLocationSubmit() {
 	$('.js-location-form').submit(event => {
@@ -443,7 +446,7 @@ function watchLocationSubmit() {
 		let entryLocation = locationTarget.val();
 		locationTarget.val("");
 	// send this off to the API call, render the results, etc
-
+		pickAPark(YELP_PARK_RESULTS);
 		showSection('.js-pick-park-section');
 	}
 )}
