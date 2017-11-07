@@ -8,11 +8,12 @@
 	<script src="picnic.js"></script>
 </head>
 <body>
+	<div class="container">
 	<header role="banner" class="banner">
 		<h1>Picnic in the Park</h1>
 		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
 	</header>
-	<main role="main" class="container">
+	<main role="main">
 		<section role="region" class="start-section">
 			<div class="section-heading">
 				<h2>Select your Location</h2>
@@ -25,7 +26,7 @@
 			<div class="section-heading">
 				<h2>Pick a Park</h2>
 			</div>
-			<div class="park map" id="park-map">
+			<div class="park map" id="map">
 				<p>Load a map based on location</p>
 			</div>
 			<div class="park results">
@@ -55,8 +56,11 @@
 					<li>twitter</li>
 				</ul>
 				<li>start over</li>
+			</ul>
 		</section>
 	</main>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSs_2MKj4ZZEEgRjJ-ZPDoAEBRh_vOSTY&callback=loadMap"></script>	
+</div>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSs_2MKj4ZZEEgRjJ-ZPDoAEBRh_vOSTY&callback=initMap">
+    </script>
 </body>
 </html>

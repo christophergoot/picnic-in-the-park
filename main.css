@@ -4,12 +4,17 @@ body {
 
 .hidden {
 	background-color: grey;
-	display: none;
+	border: 5px dashed darkgrey;
+	/*display: none;*/
 }
 
 .container {
 	max-width: 800px;
 	margin: 0 auto;
+}
+
+.header {
+
 }
 .popup {
 	position:fixed;
@@ -23,24 +28,14 @@ body {
 
 .map {
 	/*background-color: orange;*/
-	min-width: 200px;
+	width: 100%;
 	min-height: 200px;
-	margin: 0 10px 0 0;
 	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
 }
 
 .results{
 	display: flex;
 	flex-direction: column;
-}
-
-section {
-	display: grid;
-	grid-template-columns: 3fr 2fr;
-}
-
-.section-heading {
-	grid-column: 1 / 3;
 }
 
 .park-result img {
@@ -56,12 +51,23 @@ section {
 	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
 }
 
-.park-result .title {
+.park-result.title {
 	font-weight: 500;
 	font-size: 1em;
 }
 
-.park-result .address {
+.park-result.address {
 	font-style: italic;
 	font-size: .8em;
 }
+
+@media (min-width: 500px) {
+	section {
+		display: grid;
+		grid-gap: 20px;
+		grid-template-columns: 3fr 2fr;
+	}
+
+	.section-heading {
+		grid-column: 1 / 3;
+	}

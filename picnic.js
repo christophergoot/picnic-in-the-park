@@ -390,7 +390,7 @@ const YELP_PARK_SETTINGS = {
 	"headers": {
 		"authorization": "Bearer yzvfmEeIjLbTGkUD0BH96kqjoY53lS-oXCvBC_kc1lO9d1g6jSYuV3tjQXwJmbjK88sCr_VP6irssyn6LqGWqEz6lHjig6ba1NdThIjxssBoT2H5-8EmIRNB6-j8WXYx",
 		"cache-control": "no-cache",
-		// "postman-token": "d14551b1-8ef4-ba27-67ad-e51cc73d2c7a"
+		"postman-token": "d14551b1-8ef4-ba27-67ad-e51cc73d2c7a"
 	}
 };
 
@@ -414,27 +414,35 @@ function renderResult(park) {
 		`)
 }
 
+function initMap() {
+	let options = {
+		zoom : 12,
+		center : { lat : 45.543066, lng : -122.9346034 }
+		}
+	let map = new google.maps.Map(document.getElementById('map'), options);
+}
+
 function loadMap(latLng) {
-	console.log(latLng);
 	let options = {
 		zoom : 12,
 		center : latLng
 		}
-	let parkMap = new google.maps.Map(document.getElementById('park-map'), options);
-
+	let map = new google.maps.Map(document.getElementById('map'), options);
 }
 
+
 function addParkMarkers(park) {
-	let latLng = (`${park.coordinates.latitude},${park.coordinates.longitude}`);
-	alert (latLng);
-	// let options = {
-	// 	setAnimation : bounce,
-	// 	icon : 'park-marker.png',
-	// 	map : parkMap,
-	// 	position : latLng,
-	// 	title : park.name
-	// }
-	// let marker = new google.maps.Marker(options);
+	let marLoc = `{ lat : ${park.coordinates.latitude}, lng : ${park.coordinates.longitude} }`;
+	console.log (marLoc);
+	let marIcon = 'park-marker.png';
+	let options = {
+		// setAnimation : bounce,
+		icon : marIcon,
+		map : map,
+		position : marLoc,
+		title : park.name
+	}
+	let marker = new google.maps.Marker(options);
 }
 
 function loadResults(data) {
@@ -445,10 +453,10 @@ function loadResults(data) {
 
 function pickAPark(data) {
 	console.log(data);
-	let latLng = data.region.center.latitude+','+data.region.center.longitude;
+	let latLng = `{ lat : ${data.region.center.latitude}, lng : ${data.region.center.longitude}`;
 	loadResults(data);
-	loadMap(latLng);
-	// data.businesses.map((park) => addParkMarkers(park));
+	// loadMap(latLng);
+	data.businesses.map((data) => addParkMarkers(data));
 
 }
 
