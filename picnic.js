@@ -404,16 +404,6 @@ function showSection (section) {
 	$(section).removeClass('hidden');
 }
 
-function loadMap(lat, long) {
-	// load a yelp map centered on given location
-	// eventually
-
-
-
-	$('.park.map').html(`this is a map for <strong>Lat ${lat} & Long ${long}</strong>`)
-}
-
-
 function renderResult(park) {
 	return (`
 		<div class="park-result">
@@ -424,6 +414,29 @@ function renderResult(park) {
 		`)
 }
 
+function loadMap(latLng) {
+	console.log(latLng);
+	let options = {
+		zoom : 12,
+		center : latLng
+		}
+	let parkMap = new google.maps.Map(document.getElementById('park-map'), options);
+
+}
+
+function addParkMarkers(park) {
+	let latLng = (`${park.coordinates.latitude},${park.coordinates.longitude}`);
+	alert (latLng);
+	// let options = {
+	// 	setAnimation : bounce,
+	// 	icon : 'park-marker.png',
+	// 	map : parkMap,
+	// 	position : latLng,
+	// 	title : park.name
+	// }
+	// let marker = new google.maps.Marker(options);
+}
+
 function loadResults(data) {
 	let results = data.businesses.map((data) => renderResult(data));
 	// let results = `this here there. <br> results <br> results`;
@@ -432,10 +445,11 @@ function loadResults(data) {
 
 function pickAPark(data) {
 	console.log(data);
-	let lat = data.region.center.latitude;
-	let long = data.region.center.longitude;
-	loadMap(lat, long);
+	let latLng = data.region.center.latitude+','+data.region.center.longitude;
 	loadResults(data);
+	loadMap(latLng);
+	// data.businesses.map((park) => addParkMarkers(park));
+
 }
 
 
@@ -445,7 +459,8 @@ function watchLocationSubmit() {
 		let locationTarget = $(event.currentTarget).find('.js-starting-location');
 		let entryLocation = locationTarget.val();
 		locationTarget.val("");
-	// send this off to the API call, render the results, etc
+	// send this off to the API call
+	// faking for now
 		pickAPark(YELP_PARK_RESULTS);
 		showSection('.js-pick-park-section');
 	}

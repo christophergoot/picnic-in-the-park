@@ -4,7 +4,7 @@ body {
 
 .hidden {
 	background-color: grey;
-	content: "hidden section"
+	display: none;
 }
 
 .container {
@@ -22,7 +22,11 @@ body {
 }
 
 .map {
-	background-color: orange;
+	/*background-color: orange;*/
+	min-width: 200px;
+	min-height: 200px;
+	margin: 0 10px 0 0;
+	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
 }
 
 .results{
