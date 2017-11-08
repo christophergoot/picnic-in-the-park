@@ -9,20 +9,25 @@
 	<script src="picnic.js"></script>
 </head>
 <body>
-	<div class="container">
-		<header role="banner" class="banner">
+	<header role="banner" class="header">
+		<div class="container">
 			<h1>Picnic in the Park</h1>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-		</header>
+			<p>Grab some lunch and head out to the park for a picnic. We'd love to help you plan</p>
+		</div>
+	</header>
+	<div class="container">
 		<main role="main">
 			<section role="region" class="start-section">
-				<div class="section-heading">
+				<div class="box">
 					<h2>Select your Location</h2>
+					<form class="js-location-form">
+						<input type="text" class="js-starting-location" placeholder="enter location">
+						<button type="submit">GO</button>
+					</form>
+					<p>
+						<button onclick="getLocation()">Use Current Location</button>
+					</p>
 				</div>
-				<form class="js-location-form">
-					<input type="text" class="js-starting-location" placeholder="enter location">
-					<button type="submit">GO</button>
-				</form>
 			</section>
 			<section role="region" class="pick park js-pick-park-section hidden">
 				<div class="section-heading">
@@ -46,19 +51,21 @@
 					<p>list some results</p>
 				</div>
 			</section>
-			<section role="region" class="js-picnic-plans-section hidden">
-				<h2>Picnic Plans</h2>
-				<ul>
-					<li>send picnic plans to GPS</li>
-					<li>share picnic plans</li>
+			<section role="region" class="js-plans hidden">
+				<div class="box">
+					<h2>Picnic Plans</h2>
 					<ul>
-						<li>email</li>
-						<li>sms</li>
-						<li>facebook</li>
-						<li>twitter</li>
+						<li>send picnic plans to GPS</li>
+						<li>share picnic plans</li>
+						<ul>
+							<li>email</li>
+							<li>sms</li>
+							<li>facebook</li>
+							<li>twitter</li>
+						</ul>
+						<li>start over</li>
 					</ul>
-					<li>start over</li>
-				</ul>
+				</div>
 			</section>
 			<section role="region" class="confirm park pop-up js-confirm-park-section hidden">
 				<h2>Confirm Park</h2>
@@ -70,6 +77,5 @@
 			</section>
 		</main>
 	</div>
-    </script>
 </body>
 </html>

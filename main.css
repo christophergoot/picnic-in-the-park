@@ -1,12 +1,20 @@
 body {
 	box-sizing: border-box;
+	margin: 0;
 }
 
 .hidden {
 	background-color: grey;
 	border: 5px dashed darkgrey;
 	display: none !important;
+}
 
+.header {
+	top: 0;
+	padding: 5px;
+	background-color: lightgrey;
+	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+	text-align: center;
 }
 
 .container {
@@ -14,8 +22,12 @@ body {
 	margin: 0 auto;
 }
 
-.section-heading {
+.box {
 	text-align: center;
+	margin: 30px auto;
+	padding: 10px 0;
+	width: 50%;
+	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);	
 }
 .pop-up {
 	/*grid-row: 1 / 3;*/

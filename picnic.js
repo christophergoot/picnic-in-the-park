@@ -423,17 +423,6 @@ const YELP_PARK_DETAILS = {
     ],
     "transactions": []
 }
-const YELP_PARK_SETTINGS = {
-	"async": true,
-	"crossDomain": true,
-	"url": "https://api.yelp.com/v3/businesses/search?location=97206&categories=parks&radius=16000&sort_by=distance",
-	"method": "GET",
-	"headers": {
-		"authorization": "Bearer yzvfmEeIjLbTGkUD0BH96kqjoY53lS-oXCvBC_kc1lO9d1g6jSYuV3tjQXwJmbjK88sCr_VP6irssyn6LqGWqEz6lHjig6ba1NdThIjxssBoT2H5-8EmIRNB6-j8WXYx",
-		"cache-control": "no-cache",
-		"postman-token": "d14551b1-8ef4-ba27-67ad-e51cc73d2c7a"
-	}
-}
 const YELP_LUNCH_RESULTS = {
     "businesses": [
         {
@@ -967,7 +956,6 @@ function renderParkPopup(park) {
 			</div>
 		</div>
 	`
-				// need to record the picked park
 }
 
 
@@ -985,7 +973,6 @@ function renderLunchPopup(lunch) {
 			</div>
 		</div>
 	`
-				// need to record the picked lunch
 }
 
 
@@ -1065,11 +1052,11 @@ function displayPlans() {
 	console.log('working on displaying plans');
 	let plans = `
 		<h1>Your picnic plans for today</h1>
-		<p>are to grab food from ${selectedLunch}</p>
-		<p>and take it to ${selectedPark}</p>
+		<p>are to grab food from ${selectedLunch.name}</p>
+		<p>and take it to ${selectedPark.name}</p>
 	`;
-	$('.js-picnic-plans-section').html(plans);
-	showSection('.js-picnic-plans-section');
+	$('.js-plans .box').html(plans);
+	showSection('.js-plans');
 }
 
 function confirmLunch(parkId, lunchId) {
@@ -1096,16 +1083,6 @@ function loadLunchResults(lunch, parkId) {
 	$('.lunch.results').html(results);
 }
 
-function displayPlans(parkId, lunchId) {
-	let plans = `
-		<h1>Your picnic plans for today</h1>
-		<p>are to grab food from ${lunchId}</p>
-		<p>and take it to ${parkId}</p>
-	`
-	$('.js-picnic-plans-section').html(plans);
-	showSection('js-picnic-plans-section');
-}
-
 function pickAPark(data) {
 	let latLng = `{ lat : ${data.region.center.latitude}, lng : ${data.region.center.longitude} }`;
 	loadParkResults(data);
@@ -1114,18 +1091,29 @@ function pickAPark(data) {
 }
 
 
+function submitLocation(location) {
+	// send this off to yelp to get park results
+	// faking for now
+	let results = YELP_PARK_RESULTS;
+	pickAPark(results);
+	showSection('.js-pick-park-section');
+}
+
 function watchLocationSubmit() {
 	$('.js-location-form').submit(event => {
 		event.preventDefault();
 		let locationTarget = $(event.currentTarget).find('.js-starting-location');
 		let entryLocation = locationTarget.val();
 		locationTarget.val("");
-	// send this off to the API call
-	// faking for now
-		pickAPark(YELP_PARK_RESULTS);
-		showSection('.js-pick-park-section');
+		submitLocation(entryLocation);
 	}
 )}
+
+function getLocation() {
+	navigator.geolocation.getCurrentPosition(function(position) {
+		submitLocation(position.coords.latitude, position.coords.longitude);
+});
+}
 
 
 function picnicInThePark() {
