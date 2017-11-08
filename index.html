@@ -5,62 +5,71 @@
 	<link rel="icon" type="image/png" href="favicon.png" />
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSs_2MKj4ZZEEgRjJ-ZPDoAEBRh_vOSTY"></script>
 	<script src="picnic.js"></script>
 </head>
 <body>
 	<div class="container">
-	<header role="banner" class="banner">
-		<h1>Picnic in the Park</h1>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-	</header>
-	<main role="main">
-		<section role="region" class="start-section">
-			<div class="section-heading">
-				<h2>Select your Location</h2>
-			</div>
-			<form class="js-location-form">
-				<input type="text" class="js-starting-location" placeholder="enter location">
-			</form>
-		</section>
-		<section role="region" class="js-pick-park-section hidden">
-			<div class="section-heading">
-				<h2>Pick a Park</h2>
-			</div>
-			<div class="park map" id="map">
-				<p>Load a map based on location</p>
-			</div>
-			<div class="park results">
-				<p>list some results</p>
-			</div>
-		</section>
-		<section role="region" class="js-confirm-park-section hidden">
-			<h2>Confirm Park</h2>
-			<p>(is a pop-up)</p>
-		</section>
-		<section role="region" class="js-pick-lunch-section hidden">
-			<h2>Pick your Lunch Spot</h2>
-		</section>
-		<section role="region" class="js-confirm-lunch-section hidden">
-			<h2>Confirm Lunch</h2>
-			<p>(is a pop-up)</p>
-		</section>
-		<section role="region" class="js-picnic-plans-section hidden">
-			<h2>Picnic Plans</h2>
-			<ul>
-				<li>send picnic plans to GPS</li>
-				<li>share picnic plans</li>
+		<header role="banner" class="banner">
+			<h1>Picnic in the Park</h1>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+		</header>
+		<main role="main">
+			<section role="region" class="start-section">
+				<div class="section-heading">
+					<h2>Select your Location</h2>
+				</div>
+				<form class="js-location-form">
+					<input type="text" class="js-starting-location" placeholder="enter location">
+					<button type="submit">GO</button>
+				</form>
+			</section>
+			<section role="region" class="pick park js-pick-park-section hidden">
+				<div class="section-heading">
+					<h2>Pick a Park</h2>
+				</div>
+				<div class="park map" id="parkMap">
+					<p>Load a map based on location</p>
+				</div>
+				<div class="park results">
+					<p>list some results</p>
+				</div>
+			</section>
+			<section role="region" class="pick lunch js-pick-lunch-section hidden">
+				<div class="section-heading">
+					<h2>Pick your Lunch Spot</h2>
+				</div>
+				<div class="lunch map" id="lunchMap">
+					<p>Load a map based on location</p>
+				</div>
+				<div class="lunch results">
+					<p>list some results</p>
+				</div>
+			</section>
+			<section role="region" class="js-picnic-plans-section hidden">
+				<h2>Picnic Plans</h2>
 				<ul>
-					<li>email</li>
-					<li>sms</li>
-					<li>facebook</li>
-					<li>twitter</li>
+					<li>send picnic plans to GPS</li>
+					<li>share picnic plans</li>
+					<ul>
+						<li>email</li>
+						<li>sms</li>
+						<li>facebook</li>
+						<li>twitter</li>
+					</ul>
+					<li>start over</li>
 				</ul>
-				<li>start over</li>
-			</ul>
-		</section>
-	</main>
-</div>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSs_2MKj4ZZEEgRjJ-ZPDoAEBRh_vOSTY&callback=initMap">
+			</section>
+			<section role="region" class="confirm park pop-up js-confirm-park-section hidden">
+				<h2>Confirm Park</h2>
+				<p>(is a pop-up)</p>
+			</section>
+			<section role="region" class="confirm lunch pop-up js-confirm-lunch-section hidden">
+				<h2>Confirm Lunch</h2>
+				<p>(is a pop-up)</p>
+			</section>
+		</main>
+	</div>
     </script>
 </body>
 </html>

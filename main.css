@@ -5,7 +5,8 @@ body {
 .hidden {
 	background-color: grey;
 	border: 5px dashed darkgrey;
-	/*display: none;*/
+	display: none !important;
+
 }
 
 .container {
@@ -13,10 +14,11 @@ body {
 	margin: 0 auto;
 }
 
-.header {
-
+.section-heading {
+	text-align: center;
 }
-.popup {
+.pop-up {
+	/*grid-row: 1 / 3;*/
 	position:fixed;
 	top:0; 
 	left:0; 
@@ -24,6 +26,22 @@ body {
 	height:100%; 
 	background:url(overlay.png) repeat; 
 	text-align:center;
+}
+
+.pop-up img {
+	width: 25%;
+	max-width: 300px;
+	float: left;
+}
+
+.confirm-box {
+	margin: 15%;
+	/*width: 50%;*/
+	/*height: 50%;*/
+	overflow: hidden; 
+	background-color: white;
+	padding: 1%;
+	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);	
 }
 
 .map {
@@ -38,31 +56,31 @@ body {
 	flex-direction: column;
 }
 
-.park-result img {
+.result img {
 	height: 40px;
 	width: 40px;
 	float: left;
 	margin: 5px;
 }
 
-.park-result {
+.result {
 	padding: 2px;
 	margin: 2px;
 	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
 }
 
-.park-result.title {
+.result.title {
 	font-weight: 500;
 	font-size: 1em;
 }
 
-.park-result.address {
+.result.address {
 	font-style: italic;
 	font-size: .8em;
 }
 
 @media (min-width: 500px) {
-	section {
+	section.pick {
 		display: grid;
 		grid-gap: 20px;
 		grid-template-columns: 3fr 2fr;
@@ -71,3 +89,4 @@ body {
 	.section-heading {
 		grid-column: 1 / 3;
 	}
+}
