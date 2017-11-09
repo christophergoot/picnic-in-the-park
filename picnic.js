@@ -952,12 +952,10 @@ function renderParkPopup(park) {
 				<p class="title">${park.name}</p>
 				<p class="address">${park.location.display_address[0]}, ${park.location.display_address[1]}</p>
 				<button onclick="pickLunch(${location}, '${park.id}')">Confirm Park</button>
-				<p>click anywhere else to return</p>
 			</div>
 		</div>
 	`
 }
-
 
 function renderLunchPopup(lunch) {
 	let location = `{ lat : ${lunch.coordinates.latitude}, lng : ${lunch.coordinates.longitude} }`
@@ -969,24 +967,16 @@ function renderLunchPopup(lunch) {
 				<p class="title">${lunch.name}</p>
 				<p class="address">${lunch.location.display_address[0]}, ${lunch.location.display_address[1]}</p>
 				<button onclick='displayPlans()'>Confirm Lunch</button>
-				<p>click anywhere else to return</p>
 			</div>
 		</div>
 	`
 }
 
+// $('#lightbox').live('click', function() {
+// 	$('#lightbox').hide();
+// });
 
-function pickLunch(latLng, parkId) {
-	// call yelp for resteraunts
-	// CHEATER
-	let data = YELP_LUNCH_RESULTS
-	// load resteraunt results
-	loadLunchResults(data, parkId);
-	loadLunchMap(latLng)
-	// load map markers
-	// data.businesses.map((data) => addParkMarkers(data));
-	showSection('.js-pick-lunch-section');
-}
+
 
 function confirmPark(parkId) {
 	// make a yelp call for parkId
@@ -995,44 +985,7 @@ function confirmPark(parkId) {
 	let parkPopup = renderParkPopup(park);
 	$('.js-confirm-park-section').html(parkPopup);
 	$('.js-confirm-park-section').removeClass('hidden');
-}
-
-function initMap() {
-	let options = {
-		zoom : 12,
-		center : { lat : 45.4844354741, lng : -122.5991821289 }
-		}
-	let parkMap = new google.maps.Map(document.getElementById('map'), options);
-}
-
-function loadParkMap(latLng) {
-	let options = {
-		zoom : 13,
-		center : latLng
-		}
-	let map = new google.maps.Map(document.getElementById('parkMap'), options);
-}
-
-function loadLunchMap(latLng) {
-	let options = {
-		zoom : 15,
-		center : latLng
-		}
-	let map = new google.maps.Map(document.getElementById('lunchMap'), options);
-}
-
-function addParkMarkers(park) {
-	let marLoc = `{ lat : ${park.coordinates.latitude}, lng : ${park.coordinates.longitude} }`;
-	console.log (marLoc);
-	let marIcon = 'park-marker.png';
-	let options = {
-		// setAnimation : bounce,
-		icon : marIcon,
-		map : map,
-		position : new google.maps.LatLng(marLoc),
-		title : park.name
-	}
-	let marker = new google.maps.Marker(options);
+	$('.js-confirm-park-section').click(() => $('.js-confirm-park-section').addClass('hidden'));
 }
 
 function loadParkResults(park) {
@@ -1049,11 +1002,11 @@ function loadParkResults(park) {
 }
 
 function displayPlans() {
-	console.log('working on displaying plans');
 	let plans = `
 		<h1>Your picnic plans for today</h1>
 		<p>are to grab food from ${selectedLunch.name}</p>
 		<p>and take it to ${selectedPark.name}</p>
+		<button onclick="picnicInThePark()">Start Over</button>
 	`;
 	$('.js-plans .box').html(plans);
 	showSection('.js-plans');
@@ -1066,9 +1019,8 @@ function confirmLunch(parkId, lunchId) {
 	let lunchPopup = renderLunchPopup(lunch);
 	$('.js-confirm-lunch-section').html(lunchPopup);
 	$('.js-confirm-lunch-section').removeClass('hidden');
+	$('.js-confirm-lunch-section').click(() => $('.js-confirm-lunch-section').addClass('hidden'));
 }
-
-
 
 function loadLunchResults(lunch, parkId) {
 	let results = lunch.businesses.map((lunch) => {
@@ -1083,20 +1035,69 @@ function loadLunchResults(lunch, parkId) {
 	$('.lunch.results').html(results);
 }
 
-function pickAPark(data) {
-	let latLng = `{ lat : ${data.region.center.latitude}, lng : ${data.region.center.longitude} }`;
-	loadParkResults(data);
-	loadParkMap(latLng);
-	// data.businesses.map((data) => addParkMarkers(data));
+function loadParkMap(latLng) {
+	let options = {
+		zoom : 13,
+		center : latLng
+		}
+	let map = new google.maps.Map(document.getElementById('parkMap'), options);
+	return map;
 }
 
+function loadLunchMap(latLng) {
+	let options = {
+		zoom : 14,
+		center : latLng
+		}
+	let map = new google.maps.Map(document.getElementById('lunchMap'), options);
+	return map;
+}
 
-function submitLocation(location) {
-	// send this off to yelp to get park results
-	// faking for now
-	let results = YELP_PARK_RESULTS;
-	pickAPark(results);
+function addParkMarkers(park, parkMap) {
+	let marLoc = { lat : park.coordinates.latitude, lng : park.coordinates.longitude };
+	let marIcon = 'park-marker.png';
+	let options = {
+		icon : marIcon,
+		map : parkMap,
+		position : new google.maps.LatLng(marLoc),
+		title : park.name
+	}
+	let marker = new google.maps.Marker(options);
+}
+
+function addLunchMarkers(park, parkMap) {
+	let marLoc = { lat : park.coordinates.latitude, lng : park.coordinates.longitude };
+	console.log (marLoc);
+	let marIcon = 'lunch-marker.png';
+	let options = {
+		icon : marIcon,
+		map : parkMap,
+		position : new google.maps.LatLng(marLoc),
+		title : park.name
+	}
+	let marker = new google.maps.Marker(options);
+}
+
+function pickAPark(location) {
+	// use location to call yelp and get data
+	// CHEATER
+	let data = YELP_PARK_RESULTS;
+	let latLng = { lat : data.region.center.latitude, lng : data.region.center.longitude };
+	loadParkResults(data);
 	showSection('.js-pick-park-section');
+	let map = loadParkMap(latLng);
+	data.businesses.forEach((data) => addParkMarkers(data, map));
+}
+
+function pickLunch(latLng, parkId) {
+	// call yelp for resteraunts
+	// CHEATER
+	let data = YELP_LUNCH_RESULTS
+	loadLunchResults(data, parkId);
+	showSection('.js-pick-lunch-section');
+	let map = loadLunchMap(latLng);
+	data.businesses.forEach((data) => addLunchMarkers(data, map));
+	// loadLunchMap(latLng);
 }
 
 function watchLocationSubmit() {
@@ -1105,18 +1106,18 @@ function watchLocationSubmit() {
 		let locationTarget = $(event.currentTarget).find('.js-starting-location');
 		let entryLocation = locationTarget.val();
 		locationTarget.val("");
-		submitLocation(entryLocation);
+		pickAPark(entryLocation);
 	}
 )}
 
 function getLocation() {
 	navigator.geolocation.getCurrentPosition(function(position) {
-		submitLocation(position.coords.latitude, position.coords.longitude);
+		pickAPark(position.coords.latitude, position.coords.longitude);
 });
 }
 
-
 function picnicInThePark() {
+	showSection('.start-section');
 	watchLocationSubmit();
 }
 
