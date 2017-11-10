@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Picnic in the Park</title>
+	<title onclick="picnicInThePark">Picnic in the Park</title>
 	<link rel="icon" type="image/png" href="favicon.png" />
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSs_2MKj4ZZEEgRjJ-ZPDoAEBRh_vOSTY"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSs_2MKj4ZZEEgRjJ-ZPDoAEBRh_vOSTY&libraries=places"></script>
+	<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSs_2MKj4ZZEEgRjJ-ZPDoAEBRh_vOSTY&libraries=places"></script> -->
 	<script src="picnic.js"></script>
 </head>
 <body>
@@ -21,12 +22,13 @@
 				<div class="box">
 					<h2>Select your Location</h2>
 					<form class="js-location-form">
-						<input type="text" class="js-starting-location" placeholder="enter location">
+						<input type="text" id="starting-location" class="js-starting-location" placeholder="enter location">
 						<button type="submit">GO</button>
 					</form>
 					<p>
 						<button onclick="getLocation()">Use Current Location</button>
 					</p>
+					<div class="quote">If ants are such busy workers, how come they find time to go to all the picnics? <span class="author">Marie Dressler</span></div>
 				</div>
 			</section>
 			<section role="region" class="pick park js-pick-park-section hidden">
@@ -67,12 +69,8 @@
 					</ul>
 				</div>
 			</section>
-			<section role="region" class="confirm park pop-up js-confirm-park-section hidden">
-				<h2>Confirm Park</h2>
-				<p>(is a pop-up)</p>
-			</section>
-			<section role="region" class="confirm lunch pop-up js-confirm-lunch-section hidden">
-				<h2>Confirm Lunch</h2>
+			<section role="region" class="confirm  pop-up js-confirm-section hidden">
+				<h2>Confirm Park/Lunch</h2>
 				<p>(is a pop-up)</p>
 			</section>
 		</main>

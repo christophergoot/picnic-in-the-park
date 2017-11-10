@@ -17,6 +17,21 @@ body {
 	text-align: center;
 }
 
+.quote {
+	margin: 5%;
+	background-color: white
+	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);	
+}
+
+.author::before {
+	content: '-'
+}
+
+.author {
+	font-style: italic;
+	font-weight: 200;
+}
+
 .container {
 	max-width: 800px;
 	margin: 0 auto;
