@@ -1,5 +1,5 @@
-const YELP_PROXY_URL = 'http://localhost:8080/'
-
+// const YELP_PROXY_URL = 'http://localhost:8080/'
+const YELP_PROXY_URL = 'https://picnic-yelp-backend-ehoqpjnyse.now.sh/'
 let selectedPark = {};
 let selectedPicnic = {};
 
@@ -135,22 +135,45 @@ function loadLunchMap(latLng) {
 	return map;
 }
 
-function addParkMarkers(park, parkMap) {
-	let marLoc = { lat : park.coordinates.latitude, lng : park.coordinates.longitude };
+function addParkMarker(park, parkMap) {
+	let latLng = { lat : park.coordinates.latitude, lng : park.coordinates.longitude };
 	let marIcon = 'park-marker.png';
+	let contentString = (`
+			<div class="info-window" onclick=confirmPark("${park.id}")>
+				<img src="${park.image_url}" alt="Image of ${park.name}" title="Image of ${park.name}">
+				<span class="title">${park.name}</span>
+				<span class="address">${park.location.display_address[0]}, ${park.location.display_address[1]}</span>
+			</div>
+			`);
+	let infowindow = new google.maps.InfoWindow({ content: contentString });
 	let options = {
 		icon : marIcon,
 		map : parkMap,
-		position : new google.maps.LatLng(marLoc),
+		position : new google.maps.LatLng(latLng),
 		title : park.name
-	}
+		}
 	let marker = new google.maps.Marker(options);
+	marker.addListener('click', function() {
+		infowindow.open(parkMap, marker);
+		});
+
+
+
+	// bounds.extend(latLng);
+	// parkMap.fitBounds(bounds);
 }
 
-function addLunchMarkers(park, parkMap) {
+function addLunchMarker(park, parkMap) {
 	let marLoc = { lat : park.coordinates.latitude, lng : park.coordinates.longitude };
-	console.log (marLoc);
 	let marIcon = 'lunch-marker.png';
+	let contentString = (`
+			<div class="info-window" onclick=confirmLunch("${park.id}")>
+				<img src="${park.image_url}" alt="Image of ${park.name}" title="Image of ${park.name}">
+				<span class="title">${park.name}</span>
+				<span class="address">${park.location.display_address[0]}, ${park.location.display_address[1]}</span>
+			</div>
+			`);
+	let infowindow = new google.maps.InfoWindow({ content: contentString });
 	let options = {
 		icon : marIcon,
 		map : parkMap,
@@ -158,6 +181,9 @@ function addLunchMarkers(park, parkMap) {
 		title : park.name
 	}
 	let marker = new google.maps.Marker(options);
+	marker.addListener('click', function() {
+		infowindow.open(parkMap, marker);
+		});
 }
 
 
@@ -185,7 +211,12 @@ function renderParks(data) {
 	loadParkResults(data);
 	showSection('.js-pick-park-section');
 	let map = loadParkMap(latLng);
-	data.businesses.forEach((data) => addParkMarkers(data, map));
+	let marker = new google.maps.Marker({
+		map : map,
+		position : latLng,
+		title : 'Starting Location'
+	});
+	data.businesses.forEach((data) => addParkMarker(data, map));
 }
 
 
@@ -219,9 +250,7 @@ function lunchCallback(data) {
 	loadLunchResults(data);
 	showSection('.js-pick-lunch-section');
 	let map = loadLunchMap(latLng);
-	data.businesses.forEach((data) => addLunchMarkers(data, map));
-	// loadLunchMap(latLng);
-
+	data.businesses.forEach((data) => addLunchMarker(data, map));
 }
 
 
@@ -231,7 +260,7 @@ function pickLunch(lat, lng) {
 		"longitude" : lng,
 		"limit" : 10,
 		"categories" : "foodtrucks, foodstands",
-		"radius" : 1600,
+		"radius" : 16000,
 		"sort_by" : "distance"
 		};
 	callYelp(params, lunchCallback)
@@ -255,10 +284,6 @@ function getLocation() {
 });
 }
 
-// Autocomplete(inputField:HTMLInputElement,opts?:AutocompleteOptions)
-// options
-// types : [geocode]
-
 function picnicInThePark() {
 	showSection('.start-section');
 	watchLocationSubmit();
@@ -266,7 +291,10 @@ function picnicInThePark() {
 	let input = document.getElementById('starting-location');
 	let autocomplete = new google.maps.places.Autocomplete(input);
 
-		// let map = new google.maps.Map(document.getElementById('lunchMap'), options);
+// // TEMP
+// 	var bounds = new google.maps.LatLngBounds();
 }
+// temp
 
-$(picnicInThePark)
+
+picnicInThePark();

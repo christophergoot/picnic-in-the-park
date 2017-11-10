@@ -38,12 +38,17 @@ body {
 }
 
 .box {
+	top: 0;
+	padding: 5px;
+	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
 	text-align: center;
-	margin: 30px auto;
-	padding: 10px 0;
-	width: 50%;
-	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);	
 }
+
+form input {
+	width: 50%;
+	padding: 5px;
+}
+
 .pop-up {
 	/*grid-row: 1 / 3;*/
 	position:fixed;
@@ -83,11 +88,15 @@ body {
 	flex-direction: column;
 }
 
-.result img {
+.result img, .info-window img {
 	height: 40px;
 	width: 40px;
 	float: left;
 	margin: 5px;
+}
+
+.result, .info-window, .title {
+	cursor: pointer;
 }
 
 .result {
@@ -116,4 +125,11 @@ body {
 	.section-heading {
 		grid-column: 1 / 3;
 	}
+
+.box {
+	margin: 30px auto;
+	padding: 10px 0;
+	width: 75%;
+}
+
 }
