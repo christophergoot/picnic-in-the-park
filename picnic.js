@@ -2,6 +2,7 @@
 const YELP_PROXY_URL = 'https://picnic-yelp-backend-ehoqpjnyse.now.sh/'
 let selectedPark = {};
 let selectedPicnic = {};
+let bounds = new google.maps.LatLngBounds();
 
 function helloWorld(string) {
 	// $('body').append(`<p>(hello world)</p>`)
@@ -30,6 +31,7 @@ function renderParkPopup(park) {
 			</div>
 		</div>
 	`);
+	$('.section-heading h2').append(` near ${park.name}`);
 }
 
 function renderLunchPopup(lunch) {
@@ -98,8 +100,6 @@ function displayPlans() {
 }
 
 function confirmLunch(lunchId) {
-	// make a yelp call for lunchId details
-	// CHEATER
 	yelpDetails(lunchId, renderLunchPopup)
 }
 
@@ -118,8 +118,8 @@ function loadLunchResults(lunch, parkId) {
 }
 
 function loadParkMap(latLng) {
+	bounds = new google.maps.LatLngBounds();
 	let options = {
-		zoom : 13,
 		center : latLng
 		}
 	let map = new google.maps.Map(document.getElementById('parkMap'), options);
@@ -127,8 +127,8 @@ function loadParkMap(latLng) {
 }
 
 function loadLunchMap(latLng) {
+	bounds = new google.maps.LatLngBounds();
 	let options = {
-		zoom : 15,
 		center : latLng
 		}
 	let map = new google.maps.Map(document.getElementById('lunchMap'), options);
@@ -156,15 +156,12 @@ function addParkMarker(park, parkMap) {
 	marker.addListener('click', function() {
 		infowindow.open(parkMap, marker);
 		});
-
-
-
-	// bounds.extend(latLng);
-	// parkMap.fitBounds(bounds);
+	bounds.extend(latLng);
+	parkMap.fitBounds(bounds);
 }
 
 function addLunchMarker(park, parkMap) {
-	let marLoc = { lat : park.coordinates.latitude, lng : park.coordinates.longitude };
+	let latLng = { lat : park.coordinates.latitude, lng : park.coordinates.longitude };
 	let marIcon = 'lunch-marker.png';
 	let contentString = (`
 			<div class="info-window" onclick=confirmLunch("${park.id}")>
@@ -177,13 +174,15 @@ function addLunchMarker(park, parkMap) {
 	let options = {
 		icon : marIcon,
 		map : parkMap,
-		position : new google.maps.LatLng(marLoc),
+		position : new google.maps.LatLng(latLng),
 		title : park.name
 	}
 	let marker = new google.maps.Marker(options);
 	marker.addListener('click', function() {
 		infowindow.open(parkMap, marker);
 		});
+		bounds.extend(latLng);
+		parkMap.fitBounds(bounds);
 }
 
 
@@ -210,6 +209,7 @@ function renderParks(data) {
 	let latLng = { lat : data.region.center.latitude, lng : data.region.center.longitude };
 	loadParkResults(data);
 	showSection('.js-pick-park-section');
+	bounds = new google.maps.LatLngBounds();
 	let map = loadParkMap(latLng);
 	let marker = new google.maps.Marker({
 		map : map,
@@ -250,6 +250,11 @@ function lunchCallback(data) {
 	loadLunchResults(data);
 	showSection('.js-pick-lunch-section');
 	let map = loadLunchMap(latLng);
+	let marker = new google.maps.Marker({
+		map : map,
+		position : latLng,
+		title : data.name
+	});
 	data.businesses.forEach((data) => addLunchMarker(data, map));
 }
 
@@ -290,11 +295,8 @@ function picnicInThePark() {
 	let options = {'types' : ['geocode']};
 	let input = document.getElementById('starting-location');
 	let autocomplete = new google.maps.places.Autocomplete(input);
-
-// // TEMP
-// 	var bounds = new google.maps.LatLngBounds();
 }
-// temp
+
 
 
 picnicInThePark();

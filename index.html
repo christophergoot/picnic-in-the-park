@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
 	<title>Picnic in the Park</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/png" href="favicon.png" />
+	<!-- <link rel="stylesheet" type="text/css" href="reset.css"> -->
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
 	<header role="banner" class="header">
 		<div class="container">
-			<h1><span class="title" onclick="picnicInThePark()">Picnic in the Park</span></h1>
+			<h1><span class="page-title" onclick="picnicInThePark()">Picnic in the Park</span></h1>
 			<p>Grab some lunch and head out to the park for a picnic. We'd love to help you plan</p>
 		</div>
 	</header>
@@ -20,11 +22,9 @@
 					<h2>Select your Location</h2>
 					<form class="js-location-form">
 						<input type="text" id="starting-location" class="js-starting-location" placeholder="enter location">
-						<button type="submit">GO</button>
+						<button class="submit" type="submit">GO</button>
+						<button class="geolocation" onclick="getLocation()">Use Current Location</button>
 					</form>
-					<p>
-						<button onclick="getLocation()">Use Current Location</button>
-					</p>
 					<div class="quote">If ants are such busy workers, how come they find time to go to all the picnics? <span class="author">Marie Dressler</span></div>
 				</div>
 			</section>

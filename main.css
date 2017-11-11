@@ -1,12 +1,17 @@
 body {
 	box-sizing: border-box;
 	margin: 0;
+	font: normal 16px/normal Arial, Helvetica, sans-serif;
 }
 
 .hidden {
 	background-color: grey;
 	border: 5px dashed darkgrey;
 	display: none !important;
+}
+
+.result, .info-window, .page-title, button {
+	cursor: pointer;
 }
 
 .header {
@@ -17,10 +22,15 @@ body {
 	text-align: center;
 }
 
+.section-heading {
+	padding: 0 10px;
+	margin: 0 auto;
+}
+
 .quote {
 	margin: 5%;
-	background-color: white
-	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);	
+	color: grey;
+	font-weight: lighter;
 }
 
 .author::before {
@@ -29,7 +39,8 @@ body {
 
 .author {
 	font-style: italic;
-	font-weight: 200;
+	font-weight: light;
+	text-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
 }
 
 .container {
@@ -42,11 +53,38 @@ body {
 	padding: 5px;
 	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
 	text-align: center;
+	border-radius: 3px;
+}
+
+form {
+	display: inline-block;
+	width: 75%;
 }
 
 form input {
-	width: 50%;
-	padding: 5px;
+	width: 60%;
+	padding: 10px 20px;
+	border: 1px solid lightgrey;
+	border-radius: 3px;
+	box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.5) inset;
+}
+
+button {
+	padding: 10px 20px;
+	border: 1px solid lightgrey;
+	border-radius: 3px;
+	box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.5);
+	background-color: #f2f2f2;
+}
+
+button.geolocation {
+	margin: 10px 0;
+	/*width: 80%;*/
+	}
+
+button.submit {
+	width: 20%;
+	margin: 10px 0;
 }
 
 .pop-up {
@@ -95,22 +133,18 @@ form input {
 	margin: 5px;
 }
 
-.result, .info-window, .title {
-	cursor: pointer;
-}
-
 .result {
 	padding: 2px;
 	margin: 2px;
 	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
 }
 
-.result.title {
+.title {
 	font-weight: 500;
 	font-size: 1em;
 }
 
-.result.address {
+.address {
 	font-style: italic;
 	font-size: .8em;
 }
