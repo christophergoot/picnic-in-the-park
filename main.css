@@ -14,6 +14,9 @@ body {
 	cursor: pointer;
 }
 
+.progress-cursor {
+	cursor : progress;
+}
 .header {
 	top: 0;
 	padding: 5px;

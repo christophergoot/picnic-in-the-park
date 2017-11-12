@@ -1,11 +1,11 @@
 // const YELP_PROXY_URL = 'http://localhost:8080/'
 const YELP_PROXY_URL = 'https://picnic-yelp-backend-ehoqpjnyse.now.sh/'
+let startingLocation = {};
 let selectedPark = {};
 let selectedPicnic = {};
 let bounds = new google.maps.LatLngBounds();
 
 function helloWorld(string) {
-	// $('body').append(`<p>(hello world)</p>`)
 	console.log (`hello world, I got passed ${string}`);
 }
 
@@ -15,23 +15,24 @@ function showSection (section) {
 }
 
 function renderParkPopup(park) {
-	// let location = `"${park.location.display_address}"`;
-	// let location = park.coordinates;
-
 	let lat = park.coordinates.latitude;
 	let lng = park.coordinates.longitude;
 	selectedPark = park;
+	let parkImage = park.image_url;
+	if (parkImage === "") { parkImage = 'park-image.jpg' };
 	$('.js-confirm-section').html(`
 		<div class="popup">
 			<div class="confirm-box">
-				<img src="${park.image_url}" alt="Image of ${park.name}" title="Image of ${park.name}">
+				<img src="${parkImage}" alt="Image of ${park.name}" title="Image of ${park.name}">
 				<p class="title">${park.name}</p>
 				<p class="address">${park.location.display_address[0]}, ${park.location.display_address[1]}</p>
 				<button onclick="pickLunch(${lat},${lng})">Confirm Park</button>
 			</div>
 		</div>
 	`);
-	$('.section-heading h2').append(` near ${park.name}`);
+	$('.js-confirm-section').removeClass('hidden');
+	$('.js-confirm-section').click(() => $('.js-confirm-section').addClass('hidden'));
+	$('.pick.lunch h2').html(`Pick a lunch spot near ${park.name}`);
 }
 
 function renderLunchPopup(lunch) {
@@ -49,7 +50,6 @@ function renderLunchPopup(lunch) {
 	`);
 	$('.js-confirm-section').removeClass('hidden');
 	$('.js-confirm-section').click(() => $('.js-confirm-section').addClass('hidden'));
-
 }
 
 function yelpDetails(elementId, callback) {
@@ -71,32 +71,21 @@ function yelpDetails(elementId, callback) {
 
 function confirmPark(parkId) {
 	yelpDetails(parkId, renderParkPopup);
-	$('.js-confirm-section').removeClass('hidden');
-	$('.js-confirm-section').click(() => $('.js-confirm-section').addClass('hidden'));
 }
 
 function loadParkResults(park) {
 	let results = park.businesses.map((park) => {
+		let parkImage = park.image_url;
+		if (parkImage === "") { parkImage = 'park-image.jpg' };
 		return (`
 			<div class="result" onclick=confirmPark("${park.id}")>
-				<img src="${park.image_url}" alt="Image of ${park.name}" title="Image of ${park.name}">
+				<img src="${parkImage}" alt="Image of ${park.name}" title="Image of ${park.name}">
 				<span class="title">${park.name}</span>
 				<span class="address">${park.location.display_address[0]}, ${park.location.display_address[1]}</span>
 			</div>
 			`)
 	});
 	$('.park.results').html(results);
-}
-
-function displayPlans() {
-	let plans = `
-		<h1>Your picnic plans for today</h1>
-		<p>are to grab food from ${selectedLunch.name}</p>
-		<p>and take it to ${selectedPark.name}</p>
-		<button onclick="picnicInThePark()">Start Over</button>
-	`;
-	$('.js-plans .box').html(plans);
-	showSection('.js-plans');
 }
 
 function confirmLunch(lunchId) {
@@ -137,17 +126,19 @@ function loadLunchMap(latLng) {
 
 function addParkMarker(park, parkMap) {
 	let latLng = { lat : park.coordinates.latitude, lng : park.coordinates.longitude };
-	let marIcon = 'park-marker.png';
+	let markerIcon = 'park-marker.png';
+	let parkImage = park.image_url;
+	if (parkImage === "") { parkImage = 'park-image.jpg' };
 	let contentString = (`
 			<div class="info-window" onclick=confirmPark("${park.id}")>
-				<img src="${park.image_url}" alt="Image of ${park.name}" title="Image of ${park.name}">
+				<img src="${parkImage}" alt="Image of ${park.name}" title="Image of ${park.name}">
 				<span class="title">${park.name}</span>
 				<span class="address">${park.location.display_address[0]}, ${park.location.display_address[1]}</span>
 			</div>
 			`);
 	let infowindow = new google.maps.InfoWindow({ content: contentString });
 	let options = {
-		icon : marIcon,
+		icon : markerIcon,
 		map : parkMap,
 		position : new google.maps.LatLng(latLng),
 		title : park.name
@@ -163,9 +154,11 @@ function addParkMarker(park, parkMap) {
 function addLunchMarker(park, parkMap) {
 	let latLng = { lat : park.coordinates.latitude, lng : park.coordinates.longitude };
 	let marIcon = 'lunch-marker.png';
+	let parkImage = park.image_url;
+	if (parkImage === "") { parkImage = 'park-image.jpg' };
 	let contentString = (`
 			<div class="info-window" onclick=confirmLunch("${park.id}")>
-				<img src="${park.image_url}" alt="Image of ${park.name}" title="Image of ${park.name}">
+				<img src="${parkImage}" alt="Image of ${park.name}" title="Image of ${park.name}">
 				<span class="title">${park.name}</span>
 				<span class="address">${park.location.display_address[0]}, ${park.location.display_address[1]}</span>
 			</div>
@@ -201,7 +194,8 @@ function callYelp(params, callback) {
 			}
 		};
 $.ajax(settings).done(function (response) {
-  callback(response);
+	callback(response);
+	progressCursor('off');
 });
 }
 
@@ -218,7 +212,6 @@ function renderParks(data) {
 	});
 	data.businesses.forEach((data) => addParkMarker(data, map));
 }
-
 
 function pickAPark(location) {
 	// let data = YELP_PARK_RESULTS;
@@ -244,7 +237,6 @@ function pickAParkAlt(lat, lng) {
 	callYelp(params, renderParks);
 }
 
-
 function lunchCallback(data) {
 	let latLng = { lat : data.region.center.latitude, lng : data.region.center.longitude };
 	loadLunchResults(data);
@@ -258,7 +250,6 @@ function lunchCallback(data) {
 	data.businesses.forEach((data) => addLunchMarker(data, map));
 }
 
-
 function pickLunch(lat, lng) {
 	let params = {
 		"latitude" : lat,
@@ -268,7 +259,7 @@ function pickLunch(lat, lng) {
 		"radius" : 16000,
 		"sort_by" : "distance"
 		};
-	callYelp(params, lunchCallback)
+	callYelp(params, lunchCallback);
 }
 
 function watchLocationSubmit() {
@@ -277,16 +268,40 @@ function watchLocationSubmit() {
 		let locationTarget = $(event.currentTarget).find('.js-starting-location');
 		let entryLocation = locationTarget.val();
 		locationTarget.val("");
+		progressCursor('on');
 		pickAPark(entryLocation);
 	}
 )}
 
 function getLocation() {
+	progressCursor('on');
 	navigator.geolocation.getCurrentPosition(function(position) {
 		let lat = position.coords.latitude;
 		let lng = position.coords.longitude;
 		pickAParkAlt(lat, lng);
 });
+}
+
+function displayPlans() {
+	let plans = `
+		<h1>Your picnic plans</h1>
+		<p>First, you are going to pick up food from:</p>
+		<p class="title"><a href="${selectedLunch.url}" title="${selectedLunch.name}">${selectedLunch.name}</a></p>
+		<p class="address">${selectedLunch.location.display_address[0]}, ${selectedLunch.location.display_address[0]}</p>
+		<p>and take it to:</p>
+		<p class="title"><a href="${selectedPark.url}" title="${selectedPark.name}">${selectedPark.name}</a></p>
+		<p class="address">${selectedPark.location.display_address[0]}, ${selectedPark.location.display_address[0]}</p>
+		<h3>Have a fabulous Picnic!</h3>
+		<br>
+		<button onclick="picnicInThePark()">Start Over</button>
+	`;
+	$('.js-plans .box').html(plans);
+	showSection('.js-plans');
+}
+
+function progressCursor(state) {
+	if ( state === "on" ) $('body').addClass('progress-cursor')
+	else if ( state === "off" ) $('body').removeClass('progress-cursor');
 }
 
 function picnicInThePark() {
@@ -296,7 +311,5 @@ function picnicInThePark() {
 	let input = document.getElementById('starting-location');
 	let autocomplete = new google.maps.places.Autocomplete(input);
 }
-
-
 
 picnicInThePark();
