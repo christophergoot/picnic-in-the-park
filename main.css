@@ -1,7 +1,10 @@
 body {
-	box-sizing: border-box;
+	/*box-sizing: border-box;*/
 	margin: 0;
-	font: normal 16px/normal Arial, Helvetica, sans-serif;
+	font-family: 'Arvo', serif;
+	color: #4c4c4c;
+	background-image: url('bg-pattern.png');
+	background-position: center; 
 }
 
 .hidden {
@@ -17,12 +20,40 @@ body {
 .progress-cursor {
 	cursor : progress;
 }
+
 .header {
 	top: 0;
 	padding: 5px;
-	background-color: lightgrey;
+	/*background-color: #fffae5;*/
+	background-color: #9ad8ed;
 	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
 	text-align: center;
+	position: relative;
+}
+
+.header p {
+	margin: 8px 0;
+}
+
+.page-title {
+	font-family: 'Shrikhand', cursive;
+	font-size: 2.5em;
+	color: #e1eaed;
+	/*color: #F3626C;*/
+	text-shadow: -2px 0 1px #4c4c4c, 0 2px 1px #4c4c4c, 2px 0 1px #4c4c4c, 0 -2px 1px #4c4c4c;
+}
+
+.blanket {
+	/*background-image: url('blanket-bg.png');*/
+	padding: 30px 0 0 0;
+	/*position: relative;*/
+	bottom: 0;
+	top: 0;
+}
+
+h2 {
+	margin: 5px;
+	font-size: 1.75em;
 }
 
 .section-heading {
@@ -33,7 +64,8 @@ body {
 .quote {
 	margin: 5%;
 	color: grey;
-	font-weight: lighter;
+	/*font-weight: lighter;*/
+	font-family: 'Amatic SC', cursive;
 }
 
 .author::before {
@@ -44,6 +76,7 @@ body {
 	font-style: italic;
 	font-weight: light;
 	text-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+	font-family: 'Satisfy', cursive;
 }
 
 .container {
@@ -52,11 +85,24 @@ body {
 }
 
 .box {
-	top: 0;
-	padding: 5px;
+	margin: 0 auto;
+	padding: 10px 0;
+
+	background-color: white;
 	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
 	text-align: center;
-	border-radius: 3px;
+	border-radius: 10px;
+	border: 1px #cccccc solid;
+}
+
+.pick {
+	padding: 20px;
+	margin-bottom: 25px;
+	background-color: white;
+	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+	text-align: center;
+	border-radius: 10px;
+	border: 1px #cccccc solid;
 }
 
 form {
@@ -68,16 +114,26 @@ form input {
 	width: 60%;
 	padding: 10px 20px;
 	border: 1px solid lightgrey;
-	border-radius: 3px;
+	border-radius: 7px;
 	box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.5) inset;
 }
 
 button {
 	padding: 10px 20px;
 	border: 1px solid lightgrey;
-	border-radius: 3px;
+	border-radius: 7px;
 	box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.5);
-	background-color: #f2f2f2;
+	/*background-color: #f2f2f2;*/
+	background: #f2f2f2;
+	background-image: linear-gradient(to bottom, #f2f2f2, #ffffff);	
+	color: #4c4c4c
+	text-decoration: none;
+}
+
+button:hover {
+	background: #f2f2f2;
+	background-image: linear-gradient(to bottom, #f2f2f2, #f1f1f1);
+	text-decoration: none;
 }
 
 button.geolocation {
@@ -140,6 +196,9 @@ button.submit {
 	padding: 2px;
 	margin: 2px;
 	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+	background-color: #e4e4e4;
+	border-radius: 3px
+	/*background-image: url('linen-pattern.jpg')*/
 }
 
 .title {
@@ -164,8 +223,6 @@ button.submit {
 	}
 
 .box {
-	margin: 30px auto;
-	padding: 10px 0;
 	width: 75%;
 }
 

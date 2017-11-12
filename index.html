@@ -4,6 +4,7 @@
 	<title>Picnic in the Park</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/png" href="favicon.png" />
+	<link href="https://fonts.googleapis.com/css?family=Amatic+SC|Arvo|Satisfy|Shrikhand" rel="stylesheet">
 	<!-- <link rel="stylesheet" type="text/css" href="reset.css"> -->
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -11,11 +12,11 @@
 <body>
 	<header role="banner" class="header">
 		<div class="container">
-			<h1><span class="page-title" onclick="picnicInThePark()">Picnic in the Park</span></h1>
+			<p><span class="page-title" onclick="picnicInThePark()">Picnic in the Park</span></p>
 			<p>Grab some lunch and head out to the park for a picnic. We'd love to help you plan</p>
 		</div>
 	</header>
-	<div class="container">
+	<div class="container blanket">
 		<main role="main">
 			<section role="region" class="start-section">
 				<div class="box">
@@ -29,15 +30,15 @@
 				</div>
 			</section>
 			<section role="region" class="pick park js-pick-park-section hidden">
-				<div class="section-heading">
-					<h2>Pick a Park</h2>
-				</div>
-				<div class="park map" id="parkMap">
-					<p>Load a map based on location</p>
-				</div>
-				<div class="park results">
-					<p>list some results</p>
-				</div>
+					<div class="section-heading">
+						<h2>Pick a Park</h2>
+					</div>
+					<div class="park map" id="parkMap">
+						<p>Load a map based on location</p>
+					</div>
+					<div class="park results">
+						<p>list some results</p>
+					</div>
 			</section>
 			<section role="region" class="pick lunch js-pick-lunch-section hidden">
 				<div class="section-heading">
@@ -66,11 +67,11 @@
 					</ul>
 				</div>
 			</section>
-			<section role="region" class="confirm  pop-up js-confirm-section hidden">
-				<h2>Confirm Park/Lunch</h2>
-				<p>(is a pop-up)</p>
-			</section>
 		</main>
+	<section role="region" class="confirm  pop-up js-confirm-section hidden">
+		<h2>Confirm Park/Lunch</h2>
+		<p>(is a pop-up)</p>
+	</section>
 	</div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSs_2MKj4ZZEEgRjJ-ZPDoAEBRh_vOSTY&libraries=places"></script>
 	<script src="picnic.js"></script>
