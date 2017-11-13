@@ -5,14 +5,51 @@ let selectedPark = {};
 let selectedPicnic = {};
 let bounds = new google.maps.LatLngBounds();
 
-function helloWorld(string) {
-	console.log (`hello world, I got passed ${string}`);
+
+function displayPlans() {
+	let plans = `
+		<h1>Your picnic plans</h1>
+		<div class="plan-step">
+			<div class="plans-img left" style=background-image:url("${selectedLunch.image_url}")>
+			</div>
+			<div class="plans-content">
+				<p>First, you are going to pick up food from:</p>
+				<p class="title"><a href="${selectedLunch.url}" title="${selectedLunch.name}" target="_blank">${selectedLunch.name}</a></p>
+				<p class="address">${selectedLunch.location.display_address[0]}, ${selectedLunch.location.display_address[0]}</p>
+			</div>
+		</div>
+		<div class="plan-step">
+			<div class="plans-img right" style=background-image:url("${selectedPark.image_url}")>
+			</div>
+			<div class="plans-content">
+				<p>and take it to:</p>
+				<p class="title"><a href="${selectedPark.url}" title="${selectedPark.name}" target="_blank">${selectedPark.name}</a></p>
+				<p class="address">${selectedPark.location.display_address[0]}, ${selectedPark.location.display_address[0]}</p>
+			</div>
+		</div>
+		<div class="plan-step">
+			<p class="fabulous">Have a fabulous Picnic!</p>
+			<button onclick="picnicInThePark()">Start Over</button>
+		</div>
+	`;
+	$('.js-plans .box').html(plans);
+	showSection('.js-plans');
 }
 
-function showSection (section) {
-	$('section').not(section).addClass('hidden');
-	$(section).removeClass('hidden');
+
+function loadLunchResults(lunch, parkId) {
+	let results = lunch.businesses.map((lunch) => {
+		return (`
+			<div class="result" onclick="confirmLunch('${lunch.id}')">
+				<img src="${lunch.image_url}" alt="Image of ${lunch.name}" title="Image of ${lunch.name}">
+				<span class="title">${lunch.name}</span>
+				<span class="address">${lunch.location.display_address[0]}, ${lunch.location.display_address[1]}</span>
+			</div>
+			`)
+	});
+	$('.lunch.results').html(results);
 }
+
 
 function renderParkPopup(park) {
 	let lat = park.coordinates.latitude;
@@ -23,10 +60,14 @@ function renderParkPopup(park) {
 	$('.js-confirm-section').html(`
 		<div class="popup">
 			<div class="confirm-box">
-				<img src="${parkImage}" alt="Image of ${park.name}" title="Image of ${park.name}">
-				<p class="title">${park.name}</p>
-				<p class="address">${park.location.display_address[0]}, ${park.location.display_address[1]}</p>
-				<button onclick="pickLunch(${lat},${lng})">Confirm Park</button>
+				<div class="popup-img">
+					<img src="${parkImage}" alt="Image of ${park.name}" title="Image of ${park.name}">
+				</div>
+				<div class="popup-content">
+					<p class="title">${park.name}</p>	
+					<p class="address">${park.location.display_address[0]}, ${park.location.display_address[1]}</p>
+					<button onclick="pickLunch(${lat},${lng})">Confirm Park</button>
+				</div>
 			</div>
 		</div>
 	`);
@@ -41,15 +82,24 @@ function renderLunchPopup(lunch) {
 	$('.js-confirm-section').html(`
 		<div class="popup">
 			<div class="confirm-box">
-				<img src="${lunch.image_url}" alt="Image of ${lunch.name}" title="Image of ${lunch.name}">
-				<p class="title">${lunch.name}</p>
-				<p class="address">${lunch.location.display_address[0]}, ${lunch.location.display_address[1]}</p>
-				<button onclick='displayPlans()'>Confirm Lunch</button>
+				<div class="popup-img">
+					<img src="${lunch.image_url}" alt="Image of ${lunch.name}" title="Image of ${lunch.name}">
+				</div>
+				<div class="popup-content">
+					<p class="title">${lunch.name}</p>
+					<p class="address">${lunch.location.display_address[0]}, ${lunch.location.display_address[1]}</p>
+					<button onclick='displayPlans()'>Confirm Lunch</button>
+				</div>
 			</div>
 		</div>
 	`);
 	$('.js-confirm-section').removeClass('hidden');
 	$('.js-confirm-section').click(() => $('.js-confirm-section').addClass('hidden'));
+}
+
+function showSection (section) {
+	$('section').not(section).addClass('hidden');
+	$(section).removeClass('hidden');
 }
 
 function yelpDetails(elementId, callback) {
@@ -69,8 +119,11 @@ function yelpDetails(elementId, callback) {
 	});
 }
 
-function confirmPark(parkId) {
+function confirmPark(parkId, event) {
+	$(event.currentTarget).addClass('make-pop-up');
 	yelpDetails(parkId, renderParkPopup);
+	// $(event.currentTarget).removeClass('make-pop-up');
+
 }
 
 function loadParkResults(park) {
@@ -78,7 +131,7 @@ function loadParkResults(park) {
 		let parkImage = park.image_url;
 		if (parkImage === "") { parkImage = 'park-image.jpg' };
 		return (`
-			<div class="result" onclick=confirmPark("${park.id}")>
+			<div class="result" onclick=confirmPark("${park.id}",event)>
 				<img src="${parkImage}" alt="Image of ${park.name}" title="Image of ${park.name}">
 				<span class="title">${park.name}</span>
 				<span class="address">${park.location.display_address[0]}, ${park.location.display_address[1]}</span>
@@ -90,20 +143,6 @@ function loadParkResults(park) {
 
 function confirmLunch(lunchId) {
 	yelpDetails(lunchId, renderLunchPopup)
-}
-
-
-function loadLunchResults(lunch, parkId) {
-	let results = lunch.businesses.map((lunch) => {
-		return (`
-			<div class="result" onclick="confirmLunch('${lunch.id}')">
-				<img src="${lunch.image_url}" alt="Image of ${lunch.name}" title="Image of ${lunch.name}">
-				<span class="title">${lunch.name}</span>
-				<span class="address">${lunch.location.display_address[0]}, ${lunch.location.display_address[1]}</span>
-			</div>
-			`)
-	});
-	$('.lunch.results').html(results);
 }
 
 function loadParkMap(latLng) {
@@ -256,6 +295,7 @@ function pickLunch(lat, lng) {
 		"longitude" : lng,
 		"limit" : 10,
 		"categories" : "foodtrucks, foodstands",
+		// "categories" : "icecream",
 		"radius" : 16000,
 		"sort_by" : "distance"
 		};
@@ -280,23 +320,6 @@ function getLocation() {
 		let lng = position.coords.longitude;
 		pickAParkAlt(lat, lng);
 });
-}
-
-function displayPlans() {
-	let plans = `
-		<h1>Your picnic plans</h1>
-		<p>First, you are going to pick up food from:</p>
-		<p class="title"><a href="${selectedLunch.url}" title="${selectedLunch.name}">${selectedLunch.name}</a></p>
-		<p class="address">${selectedLunch.location.display_address[0]}, ${selectedLunch.location.display_address[0]}</p>
-		<p>and take it to:</p>
-		<p class="title"><a href="${selectedPark.url}" title="${selectedPark.name}">${selectedPark.name}</a></p>
-		<p class="address">${selectedPark.location.display_address[0]}, ${selectedPark.location.display_address[0]}</p>
-		<h3>Have a fabulous Picnic!</h3>
-		<br>
-		<button onclick="picnicInThePark()">Start Over</button>
-	`;
-	$('.js-plans .box').html(plans);
-	showSection('.js-plans');
 }
 
 function progressCursor(state) {
