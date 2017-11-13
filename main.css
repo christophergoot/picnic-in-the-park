@@ -8,8 +8,6 @@ body {
 }
 
 .hidden {
-	background-color: grey;
-	border: 5px dashed darkgrey;
 	display: none !important;
 }
 
@@ -36,7 +34,7 @@ body {
 
 .page-title {
 	font-family: 'Shrikhand', cursive;
-	font-size: 2.5em;
+	font-size: 2em;
 	color: #fffae5;
 	/*color: #F3626C;*/
 	text-shadow: -2px 0 1px #4c4c4c, 0 2px 1px #4c4c4c, 2px 0 1px #4c4c4c, 0 -2px 1px #4c4c4c;
@@ -62,6 +60,11 @@ h2 {
 	margin: 5%;
 	color: grey;
 	font-family: 'Amatic SC', cursive;
+	transition: color 1s 2s linear;
+}
+
+.white {
+	color: white;
 }
 
 .author::before {
@@ -79,15 +82,8 @@ h2 {
 }
 
 .starting-position {
-	/*margin: -100px auto;*/
-	/*height: 0;*/
-	/*overflow: hidden;*/
-	transition: margin 2s ease-out;
-	margin-top: -500px;
-}
-
-.ending-position {
-	transform: translate(0, 500px);
+	transition: margin 1.75s ease-out;
+	margin-top: -400px;
 }
 
 .box {
@@ -314,5 +310,6 @@ button.submit {
 		float:right;
 	}
 
-
+	.page-title {
+		font-size: 2.5em;
 }

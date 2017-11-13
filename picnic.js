@@ -334,7 +334,7 @@ function picnicInThePark() {
 	let input = document.getElementById('starting-location');
 	let autocomplete = new google.maps.places.Autocomplete(input);
 	$('.starting-position').addClass('box');
-	
+	$('.quote').removeClass('white');
 }
 
 $(picnicInThePark);
