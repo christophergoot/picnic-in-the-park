@@ -13,7 +13,7 @@ function displayPlans() {
 			<div class="plans-img left" style=background-image:url("${selectedLunch.image_url}")>
 			</div>
 			<div class="plans-content">
-				<p>First, you are going to pick up food from:</p>
+				<p class="step">First, pick up your food from . . . </p>
 				<p class="title"><a href="${selectedLunch.url}" title="${selectedLunch.name}" target="_blank">${selectedLunch.name}</a></p>
 				<p class="address">${selectedLunch.location.display_address[0]}, ${selectedLunch.location.display_address[0]}</p>
 			</div>
@@ -22,7 +22,7 @@ function displayPlans() {
 			<div class="plans-img right" style=background-image:url("${selectedPark.image_url}")>
 			</div>
 			<div class="plans-content">
-				<p>and take it to:</p>
+				<p class="step">. . . and then take it to:</p>
 				<p class="title"><a href="${selectedPark.url}" title="${selectedPark.name}" target="_blank">${selectedPark.name}</a></p>
 				<p class="address">${selectedPark.location.display_address[0]}, ${selectedPark.location.display_address[0]}</p>
 			</div>
@@ -333,6 +333,8 @@ function picnicInThePark() {
 	let options = {'types' : ['geocode']};
 	let input = document.getElementById('starting-location');
 	let autocomplete = new google.maps.places.Autocomplete(input);
+	$('.starting-position').addClass('box');
+	
 }
 
-picnicInThePark();
+$(picnicInThePark);
