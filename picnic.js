@@ -52,7 +52,7 @@ function renderParkPopup(park) {
 	let lng = park.coordinates.longitude;
 	selectedPark = park;
 	let parkImage = park.image_url;
-	if (parkImage === "") { parkImage = 'park-image.jpg' };
+	if (parkImage === "") { parkImage = 'media/park-image.jpg' };
 	$('.js-confirm-section').html(`
 		<div class="popup">
 			<div class="confirm-box">
@@ -67,13 +67,11 @@ function renderParkPopup(park) {
 			</div>
 		</div>
 	`);
-	$('.js-confirm-section').removeClass('hidden');
 	$('.js-confirm-section').click(() => $('.js-confirm-section').addClass('hidden'));
 	$('.pick.lunch h2').html(`Pick a lunch spot near ${park.name}`);
 }
 
 function renderLunchPopup(lunch) {
-	let latLng = `{ lat : ${lunch.coordinates.latitude}, lng : ${lunch.coordinates.longitude} }`
 	selectedLunch = lunch;
 	$('.js-confirm-section').html(`
 		<div class="popup">
@@ -115,7 +113,18 @@ function yelpDetails(elementId, callback) {
 	});
 }
 
+function loading(state) {
+	if (state === 'on') {
+		$('.js-confirm-section').removeClass('hidden');
+		$('.js-confirm-section').html('<div class="popup"><div class="loading"></div></div>');
+	}
+	else if (state === 'off') {
+		$('.js-confirm-section').addClass('hidden');
+	}
+}
+
 function confirmPark(parkId, event) {
+	loading('on');
 	yelpDetails(parkId, renderParkPopup);
 
 }
@@ -123,7 +132,7 @@ function confirmPark(parkId, event) {
 function loadParkResults(park) {
 	let results = park.businesses.map((park) => {
 		let parkImage = park.image_url;
-		if (parkImage === "") { parkImage = 'park-image.jpg' };
+		if (parkImage === "") { parkImage = 'media/park-image.jpg' };
 		return (`
 			<div class="result" onclick=confirmPark("${park.id}",event)>
 				<img src="${parkImage}" alt="Image of ${park.name}" title="Image of ${park.name}">
@@ -136,6 +145,7 @@ function loadParkResults(park) {
 }
 
 function confirmLunch(lunchId) {
+	loading('on');
 	yelpDetails(lunchId, renderLunchPopup)
 }
 
@@ -159,9 +169,9 @@ function loadLunchMap(latLng) {
 
 function addParkMarker(park, parkMap) {
 	let latLng = { lat : park.coordinates.latitude, lng : park.coordinates.longitude };
-	let markerIcon = 'park-marker.png';
+	let markerIcon = 'media/park-marker.png';
 	let parkImage = park.image_url;
-	if (parkImage === "") { parkImage = 'park-image.jpg' };
+	if (parkImage === "") { parkImage = 'media/park-image.jpg' };
 	let contentString = (`
 			<div class="info-window" onclick=confirmPark("${park.id}")>
 				<img src="${parkImage}" alt="Image of ${park.name}" title="Image of ${park.name}">
@@ -186,9 +196,9 @@ function addParkMarker(park, parkMap) {
 
 function addLunchMarker(park, parkMap) {
 	let latLng = { lat : park.coordinates.latitude, lng : park.coordinates.longitude };
-	let marIcon = 'lunch-marker.png';
+	let marIcon = 'media/lunch-marker.png';
 	let parkImage = park.image_url;
-	if (parkImage === "") { parkImage = 'park-image.jpg' };
+	if (parkImage === "") { parkImage = 'media/park-image.jpg' };
 	let contentString = (`
 			<div class="info-window" onclick=confirmLunch("${park.id}")>
 				<img src="${parkImage}" alt="Image of ${park.name}" title="Image of ${park.name}">
@@ -228,7 +238,7 @@ function callYelp(params, callback) {
 		};
 $.ajax(settings).done(function (response) {
 	callback(response);
-	progressCursor('off');
+	loading('off');
 });
 }
 
@@ -295,24 +305,19 @@ function pickLunch(lat, lng) {
 	callYelp(params, lunchCallback);
 }
 
-function progressCursor(state) {
-	if ( state === "on" ) $('body').addClass('progress-cursor')
-	else if ( state === "off" ) $('body').removeClass('progress-cursor');
-}
-
 function watchLocationSubmit() {
 	$('.js-location-form').submit(event => {
 		event.preventDefault();
 		let locationTarget = $(event.currentTarget).find('.js-starting-location');
 		let entryLocation = locationTarget.val();
 		locationTarget.val("");
-		progressCursor('on');
+		loading('on');
 		pickAPark(entryLocation);
 	}
 )}
 
 function getLocation() {
-	progressCursor('on');
+	loading('on');
 	navigator.geolocation.getCurrentPosition(function(position) {
 		let lat = position.coords.latitude;
 		let lng = position.coords.longitude;
