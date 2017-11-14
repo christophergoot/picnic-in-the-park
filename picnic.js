@@ -1,10 +1,8 @@
-// const YELP_PROXY_URL = 'http://localhost:8080/'
 const YELP_PROXY_URL = 'https://picnic-yelp-backend-ehoqpjnyse.now.sh/'
 let startingLocation = {};
 let selectedPark = {};
 let selectedPicnic = {};
 let bounds = new google.maps.LatLngBounds();
-
 
 function displayPlans() {
 	let plans = `
@@ -36,7 +34,6 @@ function displayPlans() {
 	showSection('.js-plans');
 }
 
-
 function loadLunchResults(lunch, parkId) {
 	let results = lunch.businesses.map((lunch) => {
 		return (`
@@ -49,7 +46,6 @@ function loadLunchResults(lunch, parkId) {
 	});
 	$('.lunch.results').html(results);
 }
-
 
 function renderParkPopup(park) {
 	let lat = park.coordinates.latitude;
@@ -120,9 +116,7 @@ function yelpDetails(elementId, callback) {
 }
 
 function confirmPark(parkId, event) {
-	$(event.currentTarget).addClass('make-pop-up');
 	yelpDetails(parkId, renderParkPopup);
-	// $(event.currentTarget).removeClass('make-pop-up');
 
 }
 
@@ -253,7 +247,6 @@ function renderParks(data) {
 }
 
 function pickAPark(location) {
-	// let data = YELP_PARK_RESULTS;
 	let params = {
 		"location" : location,
 		"limit" : 10,
@@ -302,6 +295,11 @@ function pickLunch(lat, lng) {
 	callYelp(params, lunchCallback);
 }
 
+function progressCursor(state) {
+	if ( state === "on" ) $('body').addClass('progress-cursor')
+	else if ( state === "off" ) $('body').removeClass('progress-cursor');
+}
+
 function watchLocationSubmit() {
 	$('.js-location-form').submit(event => {
 		event.preventDefault();
@@ -320,11 +318,6 @@ function getLocation() {
 		let lng = position.coords.longitude;
 		pickAParkAlt(lat, lng);
 });
-}
-
-function progressCursor(state) {
-	if ( state === "on" ) $('body').addClass('progress-cursor')
-	else if ( state === "off" ) $('body').removeClass('progress-cursor');
 }
 
 function picnicInThePark() {

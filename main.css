@@ -1,5 +1,4 @@
 body {
-	/*box-sizing: border-box;*/
 	margin: 0;
 	font-family: 'Arvo', serif;
 	color: #4c4c4c;
@@ -173,7 +172,7 @@ button.submit {
 }
 
 .confirm-box {
-    position: fixed;
+    position: absolute;
     border-radius: 7px;
     border: 1px;
     border: 1px #cccccc solid;
@@ -185,7 +184,8 @@ button.submit {
     overflow: hidden;
     background-color: white;
     padding: 1%;
-    box-shadow: 4px 6px 9px 0px rgba(0,0,0,0.5);}
+    box-shadow: 4px 6px 9px 0px rgba(0,0,0,0.5);
+}
 
 .map {
 	width: 100%;
@@ -261,26 +261,6 @@ button.submit {
 	color: #fffae5;
 	text-shadow: -2px 0 1px #4c4c4c, 0 2px 1px #4c4c4c, 2px 0 1px #4c4c4c, 0 -2px 1px #4c4c4c;
 }
-
-/* RESERVED FOR ANIMATION ICING
-.make-pop-up {
-	position: fixed;
-    border-radius: 7px;
-    border: 1px;
-    border: 1px #cccccc solid;
-    right: 0;
-    left: 0;
-    top: 20%;
-    max-width: 500px;
-    margin: auto;
-    overflow: hidden;
-    background-color: white;
-    padding: 1%;
-    box-shadow: 4px 6px 9px 0px rgba(0,0,0,0.5);
-    transition: all 5s ease-out;
-}
-*/
-
 
 @media (min-width: 500px) {
 	section.pick {
