@@ -13,7 +13,7 @@ function displayPlans() {
 			<div class="plans-content">
 				<p class="step">First, pick up your food from . . . </p>
 				<p class="title"><a href="${selectedLunch.url}" title="${selectedLunch.name}" target="_blank">${selectedLunch.name}</a></p>
-				<p class="address">${selectedLunch.location.display_address[0]}, ${selectedLunch.location.display_address[0]}</p>
+				<p class="address">${selectedLunch.location.display_address[0]}, ${selectedLunch.location.display_address[1]}</p>
 			</div>
 		</div>
 		<div class="plan-step">
@@ -22,12 +22,12 @@ function displayPlans() {
 			<div class="plans-content">
 				<p class="step">. . . and then take it to:</p>
 				<p class="title"><a href="${selectedPark.url}" title="${selectedPark.name}" target="_blank">${selectedPark.name}</a></p>
-				<p class="address">${selectedPark.location.display_address[0]}, ${selectedPark.location.display_address[0]}</p>
+				<p class="address">${selectedPark.location.display_address[0]}, ${selectedPark.location.display_address[1]}</p>
 			</div>
 		</div>
 		<div class="plan-step">
 			<p class="fabulous">Have a fabulous Picnic!</p>
-			<button onclick="picnicInThePark()">Start Over</button>
+			<button class="btn" onclick="picnicInThePark()">Start Over</button>
 		</div>
 	`;
 	$('.js-plans .box').html(plans);
@@ -51,18 +51,16 @@ function renderParkPopup(park) {
 	let lat = park.coordinates.latitude;
 	let lng = park.coordinates.longitude;
 	selectedPark = park;
-	let parkImage = park.image_url;
-	if (parkImage === "") { parkImage = 'media/park-image.jpg' };
+	let parkImage = park.photos["0"];
+	if (!parkImage) { parkImage = 'media/park-image.jpg' };
 	$('.js-confirm-section').html(`
 		<div class="popup">
 			<div class="confirm-box">
-				<div class="popup-img">
-					<img src="${parkImage}" alt="Image of ${park.name}" title="Image of ${park.name}">
-				</div>
-				<div class="popup-content">
-					<p class="title">${park.name}</p>	
+				<div class="plans-img left" style=background-image:url("${parkImage}")></div>
+				<div class="plans-content">
+					<p class="title"><a href="${park.url}" title="${park.name}" target="_blank">${park.name}</a></p>
 					<p class="address">${park.location.display_address[0]}, ${park.location.display_address[1]}</p>
-					<button onclick="pickLunch(${lat},${lng})">Confirm Park</button>
+					<button class="btn" onclick="pickLunch(${lat},${lng})">Confirm Park</button>
 				</div>
 			</div>
 		</div>
@@ -71,18 +69,16 @@ function renderParkPopup(park) {
 	$('.pick.lunch h2').html(`Pick a lunch spot near ${park.name}`);
 }
 
-function renderLunchPopup(lunch) {
-	selectedLunch = lunch;
+function renderLunchPopup(element) {
+	selectedLunch = element;
 	$('.js-confirm-section').html(`
 		<div class="popup">
 			<div class="confirm-box">
-				<div class="popup-img">
-					<img src="${lunch.image_url}" alt="Image of ${lunch.name}" title="Image of ${lunch.name}">
-				</div>
-				<div class="popup-content">
-					<p class="title">${lunch.name}</p>
-					<p class="address">${lunch.location.display_address[0]}, ${lunch.location.display_address[1]}</p>
-					<button onclick='displayPlans()'>Confirm Lunch</button>
+				<div class="plans-img left" style=background-image:url("${element.photos["0"]}")></div>
+				<div class="plans-content">
+					<p class="title"><a href="${element.url}" title="${element.name}" target="_blank">${element.name}</a></p>
+					<p class="address">${element.location.display_address[0]}, ${element.location.display_address[1]}</p>
+					<button class="btn" onclick='displayPlans()'>Confirm Lunch</button>
 				</div>
 			</div>
 		</div>
