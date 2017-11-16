@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<title>Picnic in the Park</title>
+	<meta name="description" content="Picnic in the Park is a discovery tool to help plan a picnic. It finds parks at a given location, and then looks in that vicinity for food trucks or stands to outfit the picnic">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
 	<link rel="icon" type="image/png" href="favicon.png" />
 	<link href="https://fonts.googleapis.com/css?family=Amatic+SC|Arvo|Satisfy|Shrikhand" rel="stylesheet">
@@ -12,7 +13,7 @@
 	<header role="banner" class="header">
 		<div class="container">
 			<p><span class="page-title" onclick="picnicInThePark()">Picnic in the Park</span></p>
-			<p>Grab some lunch and head out to the park for a picnic. We'd love to help you plan</p>
+			<p>Grab lunch and head out to the park for a picnic. We're here to help you plan</p>
 		</div>
 	</header>
 	<div class="container blanket">
@@ -23,7 +24,7 @@
 					<form class="js-location-form">
 						<input type="text" id="starting-location" class="js-starting-location" placeholder="enter location">
 						<button class="btn submit" type="submit">GO</button>
-						<button class="btn geolocation" onclick="getLocation()">Use Current Location</button>
+						<button class="btn geolocation" onclick="getLocation(event)">Use Current Location</button>
 					</form>
 					<!-- <div class="quote white">If ants are such busy workers, how come they find time to go to all the picnics? <span class="author">Marie Dressler</span></div> -->
 				</div>

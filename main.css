@@ -89,7 +89,7 @@ h2 {
 	margin: 0 auto;
 	padding: 10px 0;
 	background-color: white;
-	/*box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);*/
+	box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.5);
 	text-align: center;
 	border-radius: 10px;
 	border: 1px #cccccc solid;
@@ -101,7 +101,7 @@ h2 {
 	padding: 20px;
 	margin-bottom: 25px;
 	background-color: white;
-	/*box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);*/
+	box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.5);
 	text-align: center;
 	border-radius: 10px;
 	border: 1px #cccccc solid;
@@ -196,14 +196,14 @@ form input {
     padding: 10px;
     overflow: hidden;
     background-color: white;
-    /*box-shadow: 4px 6px 9px 0px rgba(0,0,0,0.5);*/
+    box-shadow: 2px 2px 7px 0px rgba(0,0,0,0.5);
 }
 
 .map {
 	width: 100%;
 	min-height: 200px;
 	/*box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);*/
-	border: .5px solid #ccc9b7;
+	border: .5px solid #cccccc;
 	border-radius: 4px;
 	margin-bottom: 5px;
 }
@@ -225,7 +225,7 @@ form input {
 	margin: 2px;
 	/*box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);*/
 	background-color: #FFFCE4;
-	border: .5px solid #ccc9b7;
+	border: .5px solid #cccccc;
 	border-radius: 3px;
 }
 

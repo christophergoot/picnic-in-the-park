@@ -104,10 +104,11 @@ function yelpDetails(elementId, callback) {
 			"postman-token": "b3e4b9d9-0798-422f-72f8-8808438c1947"
 			}
 		}	
-	$.ajax(settings).done(function (response) {
- 		 callback(response);
-	});
-}
+	$.ajax(settings).then(
+		function (response) {
+ 		 	callback(response);	
+ 		}
+)}
 
 function loading(state) {
 	if (state === 'on') {
@@ -232,11 +233,17 @@ function callYelp(params, callback) {
     		"postman-token": "72799fba-d338-1008-1b50-d06f62818db8"
 			}
 		};
-$.ajax(settings).done(function (response) {
-	callback(response);
-	loading('off');
-});
-}
+$.ajax(settings).then(
+	function (response) {
+		callback(response);
+		loading('off');
+		},
+	function () {
+		alert ('please enter valid location');
+		loading('off');
+	}
+)}
+
 
 function renderParks(data) {
 	let latLng = { lat : data.region.center.latitude, lng : data.region.center.longitude };
@@ -312,7 +319,8 @@ function watchLocationSubmit() {
 	}
 )}
 
-function getLocation() {
+function getLocation(event) {
+	event.preventDefault();
 	loading('on');
 	navigator.geolocation.getCurrentPosition(function(position) {
 		let lat = position.coords.latitude;
